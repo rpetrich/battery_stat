@@ -66,12 +66,28 @@ int main(int argc, const char *argv[]) {
 				suffix = "\x1b[00m";
 			}
 			printf(result.external_connected ? "%s$%s" : "%s!%s", prefix, suffix);
+		} else if (argc >= 2 && strcmp(argv[1], "percentage") == 0) {
+			if (result.fully_charged) {
+				return 0;
+			}
+			int32_t percent = (result.current_capacity * 100) / result.max_capacity;
+			const char *suffix;
+			if (argc == 3 && strcmp(argv[2], "emoji") == 0) {
+				if (result.fully_charged) {
+					suffix = "";
+				} else {
+					suffix = result.external_connected ? "🔌" : "🔋";
+				}
+			} else {
+				suffix = "";
+			}
+			printf("%d%%%s", percent, suffix);
 		} else if (argc == 1 || (argc == 2 && strcmp(argv[1], "simple") == 0)) {
 			printf("current_capacity=%d max_capacity=%d external_connected=%d fully_charged=%d\n", result.current_capacity, result.max_capacity, result.external_connected, result.fully_charged);
 		} else if (argc == 2 && strcmp(argv[1], "json") == 0) {
 			printf("{\"current_capacity\":%d,\"max_capacity\":%d,\"external_connected\":%s,\"fully_charged\":%s}\n", result.current_capacity, result.max_capacity, result.external_connected ? "true" : "false", result.fully_charged ? "true" : "false");
 		} else {
-			fprintf(stderr, "usage:\n\tbattery_stat\n\tbattery_stat simple\n\tbattery_stat json\n\tbattery_stat prompt\n");
+			fprintf(stderr, "usage:\n\tbattery_stat\n\tbattery_stat simple\n\tbattery_stat json\n\tbattery_stat prompt\n\tbattery_stat percentage [emoji]\n");
 			return 1;
 		}
 		return 0;
