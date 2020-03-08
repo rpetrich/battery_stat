@@ -1,0 +1,19 @@
+{
+  "[c]": {
+    "editor.tabSize": 2
+  },
+  "cSpell.ignoreWords": [
+    "after",
+    "asyncio",
+    "br",
+    "br'authority",
+    "br'mac",
+    "gmock",
+    "gtest",
+    "iwyu",
+    "llvm",
+    "multiline",
+    "parens",
+    "struct"
+  ]
+}
